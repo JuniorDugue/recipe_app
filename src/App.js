@@ -1,4 +1,4 @@
-import { collection, onSnapshot } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "./firebase.config";
 
@@ -44,6 +44,22 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!form.title || !form.desc || !form.ingredients || !form.steps) {
+      alert("Please fill out all fields");
+      return;
+    }
+
+    addDoc(recipesCollectionRef, form);
+
+    setForm({
+      title: "",
+      desc: "",
+      ingredients: [],
+      steps: [],
+    });
+
+    setPopupActive(false);
   };
 
   const handleIngredient = (e, i) => {
@@ -82,6 +98,10 @@ function App() {
     });
   };
 
+  const removeRecipe = (id) => {
+    deleteDoc(doc(db, "recipes", id));
+  };
+
   return (
     <div className="App">
       <h1>Recipe App</h1>
@@ -114,7 +134,9 @@ function App() {
 
             <div className="buttons">
               <button onClick={() => handleView(recipe.id)}>View {recipe.viewing ? "less" : "more"}</button>
-              <button className="remove">Remove</button>
+              <button className="remove" onClick={() => removeRecipe(recipe.id)}>
+                Remove
+              </button>
             </div>
           </div>
         ))}
@@ -155,8 +177,13 @@ function App() {
                   Add Step
                 </button>
               </div>
+              <div className="buttons">
+                <button type="submit">Submit</button>
+                <button type="button" className="remove" onClick={() => setPopupActive(false)}>
+                  Remove
+                </button>
+              </div>
             </form>
-            {/* {JSON.stringify(form)} */}
           </div>
         </div>
       )}
