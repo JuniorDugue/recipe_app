@@ -50,16 +50,16 @@ function App() {
       return;
     }
 
-    addDoc(recipesCollectionRef, form);
+    addDoc(recipesCollectionRef, form)
 
     setForm({
       title: "",
       desc: "",
       ingredients: [],
       steps: [],
-    });
+    })
 
-    setPopupActive(false);
+    setPopupActive(false)
   };
 
   const handleIngredient = (e, i) => {
@@ -98,9 +98,9 @@ function App() {
     });
   };
 
-  const removeRecipe = (id) => {
-    deleteDoc(doc(db, "recipes", id));
-  };
+const removeRecipe = id => {
+  deleteDoc(doc(db, "recipes", id))
+}
 
   return (
     <div className="App">
@@ -134,9 +134,7 @@ function App() {
 
             <div className="buttons">
               <button onClick={() => handleView(recipe.id)}>View {recipe.viewing ? "less" : "more"}</button>
-              <button className="remove" onClick={() => removeRecipe(recipe.id)}>
-                Remove
-              </button>
+              <button className="remove" onClick={() => removeRecipe(recipe.id)}>Remove</button>
             </div>
           </div>
         ))}
