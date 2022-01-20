@@ -27,7 +27,7 @@ function App() {
         })
       );
     });
-  }, []);
+  });
 
   const handleView = (id) => {
     const recipesClone = [...recipes];
